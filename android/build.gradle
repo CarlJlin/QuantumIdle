@@ -1,4 +1,3 @@
-
 buildscript {
   repositories {
     mavenCentral()
@@ -6,7 +5,6 @@ buildscript {
   }
 }
 apply plugin: 'com.android.application'
-
 
 android {
   namespace "fr.CarlJlin"
@@ -23,16 +21,26 @@ android {
     }
   }
   packagingOptions {
-		resources {
-			excludes += ['META-INF/robovm/ios/robovm.xml', 'META-INF/DEPENDENCIES.txt', 'META-INF/DEPENDENCIES',
-                   'META-INF/dependencies.txt', '**/*.gwt.xml']
-			pickFirsts += ['META-INF/LICENSE.txt', 'META-INF/LICENSE', 'META-INF/license.txt', 'META-INF/LGPL2.1',
-                     'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/notice.txt']
-		}
+    resources {
+      excludes += [
+        'META-INF/robovm/ios/robovm.xml',
+        'META-INF/DEPENDENCIES*',
+        'META-INF/dependencies*',
+        '**/*.gwt.xml',
+        'META-INF/INDEX.LIST',
+        'META-INF/groovy*',
+        'META-INF/LICENSE*',
+        'META-INF/NOTICE*'
+      ]
+      pickFirsts += [
+        'META-INF/services/*',
+        'META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule'
+      ]
+    }
   }
   defaultConfig {
     applicationId 'fr.CarlJlin'
-    minSdkVersion 21
+    minSdkVersion 26
     targetSdkVersion 35
     versionCode 1
     versionName "1.0"
@@ -51,7 +59,6 @@ android {
 }
 
 repositories {
-  // needed for AAPT2, may be needed for other tools
   google()
 }
 
@@ -66,12 +73,9 @@ dependencies {
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-
 }
 
-// Called every time gradle gets executed, takes the native dependencies of
-// the natives configuration, and extracts them to the proper libs/ folders
-// so they get packed with the APK.
+// Rest of your tasks...
 tasks.register('copyAndroidNatives') {
   doFirst {
     file("libs/armeabi-v7a/").mkdirs()
